@@ -1,0 +1,368 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "description": "Vendor management system",
+    "title": "Vendor management"
+  },
+  "servers": [{ "url": "http://localhost:3001" }],
+  "components": {
+    "securitySchemes": {
+      "JWT": { "in": "header", "name": "Authorization", "type": "apiKey" }
+    }
+  },
+
+  "paths": {
+    "/auth/signin": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Signin for admin",
+        "description": "Sign in and Get api token ",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string" },
+                  "password": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sign in successcully"
+          },
+          "400": {
+            "description": "Invalid Credentials"
+          }
+        }
+      }
+    },
+
+    "/auth/signup": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Signup for admin",
+        "description": "Sign up to create an Admin ",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "email": { "type": "string" },
+                  "password": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Account created successfully"
+          },
+          "400": {
+            "description": "Error while creating Account. Please try again"
+          }
+        }
+      },
+      "/api/products": {
+        "get": {
+          "tags": ["Product"],
+          "summary": "Get all products",
+          "security": [{ "JWT": {} }],
+          "responses": {
+            "200": {
+              "description": "Ok"
+            },
+            "401": {
+              "description": "Unauthorized access"
+            }
+          }
+        }
+      }
+    },
+
+    "/vendors": {
+      "post": {
+        "tags": ["Vendors"],
+        "summary": "Create Vendor",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "required": true },
+                  "contactDetails": {
+                    "type": "string",
+                    "required": true,
+                    "unique": true
+                  },
+                  "address": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Vendor created successfully"
+          },
+          "400": {
+            "description": "Error while creating Vendor. Please try again"
+          },
+          "409": {
+            "description": "Vendor already registered with given contact details."
+          }
+        }
+      },
+      "get": {
+        "tags": ["Vendors"],
+        "summary": "Get all Vendors",
+        "responses": {
+          "200": {
+            "description": "Vendors fetched successfully"
+          },
+          "400": {
+            "description": "Error while fetching Vendors. Please try again"
+          },
+          "404": {
+            "description": "Vendors not found"
+          }
+        }
+      }
+    },
+
+    "/vendors/{vendorId}": {
+      "get": {
+        "tags": ["Vendors"],
+        "summary": "Get Vendor by id",
+        "parameters": [
+          {
+            "name": "vendorId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vendor fetched successfully"
+          },
+          "400": {
+            "description": "Error while fetching Vendor. Please try again"
+          },
+          "404": {
+            "description": "Vendor not found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Vendors"],
+        "summary": "Update Vendor",
+        "parameters": [
+          {
+            "name": "vendorId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "required": true },
+                  "contactDetails": {
+                    "type": "string",
+                    "required": true,
+                    "unique": true
+                  },
+                  "address": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Vendor updated successfully"
+          },
+          "400": {
+            "description": "Error while updating Vendor. Please try again"
+          },
+          "404": {
+            "description": "Vendor not found with the given id. Please check the vendor id and try again."
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Vendors"],
+        "summary": "Delete Vendor by id",
+        "parameters": [
+          {
+            "name": "vendorId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vendor deleted successfully"
+          },
+          "400": {
+            "description": "Error while deleting Vendor. Please try again"
+          },
+          "404": {
+            "description": "Vendor not found with the given id."
+          }
+        }
+      }
+    },
+
+    "/purchase-orders": {
+      "post": {
+        "tags": ["Purchase Orders"],
+        "summary": "Create Purchase Order",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "vendor": { "type": "string" },
+                  "orderDate": { "type": "string" },
+                  "deliveryDate": { "type": "string" },
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "object"
+                    }
+                  },
+                  "quantity": { "type": "number" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Purchase order created successfully"
+          },
+          "400": {
+            "description": "Error while creating Purchase order. Please try again"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Purchase Orders"],
+        "summary": "Get all Purchase orders",
+        "responses": {
+          "200": {
+            "description": "Purchase Orders fetched successfully"
+          },
+          "400": {
+            "description": "Error while fetching purchase orders. Please try again"
+          }
+        }
+      }
+    },
+
+    "/purchase-orders/{poid}": {
+      "get": {
+        "tags": ["Purchase Orders"],
+        "summary": "Get Purchase order by id",
+        "parameters": [
+          {
+            "name": "poid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Purchase order fetched successfully"
+          },
+          "400": {
+            "description": "Error while fetching Purchase order. Please try again"
+          },
+          "404": {
+            "description": "Purchase order not found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Purchase Orders"],
+        "summary": "Update Purchase order",
+        "parameters": [
+          {
+            "name": "poid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string"
+                  },
+                  "qualityRating": { "type": "number" },
+                  "issueDate": { "type": "string" },
+                  "acknowledgmentDate": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Vendor updated successfully"
+          },
+          "400": {
+            "description": "Error while updating Vendor. Please try again"
+          },
+          "404": {
+            "description": "Vendor not found with the given id. Please check the vendor id and try again."
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Purchase Orders"],
+        "summary": "Delete Purchase order by id",
+        "parameters": [
+          {
+            "name": "poid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Purchase order deleted successfully"
+          },
+          "400": {
+            "description": "Error while deleting Purchase order. Please try again"
+          },
+          "404": {
+            "description": "Purchase order not found with the given id."
+          }
+        }
+      }
+    }
+  }
+}
