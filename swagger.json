@@ -91,6 +91,7 @@
       "post": {
         "tags": ["Vendors"],
         "summary": "Create Vendor",
+        "security": [{ "JWT": {} }],
         "requestBody": {
           "content": {
             "application/json": {
@@ -124,6 +125,7 @@
       "get": {
         "tags": ["Vendors"],
         "summary": "Get all Vendors",
+        "security": [{ "JWT": {} }],
         "responses": {
           "200": {
             "description": "Vendors fetched successfully"
@@ -142,6 +144,7 @@
       "get": {
         "tags": ["Vendors"],
         "summary": "Get Vendor by id",
+        "security": [{ "JWT": {} }],
         "parameters": [
           {
             "name": "vendorId",
@@ -165,6 +168,7 @@
       "put": {
         "tags": ["Vendors"],
         "summary": "Update Vendor",
+        "security": [{ "JWT": {} }],
         "parameters": [
           {
             "name": "vendorId",
@@ -206,6 +210,7 @@
       "delete": {
         "tags": ["Vendors"],
         "summary": "Delete Vendor by id",
+        "security": [{ "JWT": {} }],
         "parameters": [
           {
             "name": "vendorId",
@@ -232,6 +237,7 @@
       "post": {
         "tags": ["Purchase Orders"],
         "summary": "Create Purchase Order",
+        "security": [{ "JWT": {} }],
         "requestBody": {
           "content": {
             "application/json": {
@@ -265,6 +271,7 @@
       "get": {
         "tags": ["Purchase Orders"],
         "summary": "Get all Purchase orders",
+        "security": [{ "JWT": {} }],
         "responses": {
           "200": {
             "description": "Purchase Orders fetched successfully"
@@ -280,6 +287,7 @@
       "get": {
         "tags": ["Purchase Orders"],
         "summary": "Get Purchase order by id",
+        "security": [{ "JWT": {} }],
         "parameters": [
           {
             "name": "poid",
@@ -303,6 +311,7 @@
       "put": {
         "tags": ["Purchase Orders"],
         "summary": "Update Purchase order",
+        "security": [{ "JWT": {} }],
         "parameters": [
           {
             "name": "poid",
@@ -343,6 +352,7 @@
       "delete": {
         "tags": ["Purchase Orders"],
         "summary": "Delete Purchase order by id",
+        "security": [{ "JWT": {} }],
         "parameters": [
           {
             "name": "poid",

@@ -50,3 +50,11 @@ To access Swagger, navigate to the following URL in your web browser:
 * Click on an endpoint to view its details, including the HTTP method, path, and request/response bodies.
 * Use the "Try it out" button to send a request to the endpoint and view the response.
 
+### Authentication
+
+* The API requires authentication, you will need to provide auth token in the "Authorize" button at the top right of the page.
+* Signup with name, email and password.
+* Signin with the registered email and password to get the auth token.
+* Enter your auth token and click "Authorize" to authenticate your requests.
+
+

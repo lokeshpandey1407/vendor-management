@@ -22,8 +22,8 @@ app.get("/", (req, res, next) => {
 });
 
 app.use("/auth", adminRoutes);
-app.use("/", vendorRoutes);
-app.use("/", purchaseOrderRoutes);
+app.use("/", Auth, vendorRoutes);
+app.use("/", Auth, purchaseOrderRoutes);
 
 app.use(errorHandler);
 

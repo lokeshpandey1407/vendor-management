@@ -44,7 +44,7 @@ class AdminController {
         process.env.SECRET_KEY,
         { expiresIn: "7d" }
       );
-      return res.status(HTTP_STATUS.Success).send({
+      return res.status(200).send({
         success: true,
         data: admin,
         token: token,

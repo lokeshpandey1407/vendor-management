@@ -17,7 +17,7 @@ const Auth = (req, res, next) => {
         message: "unauthorized Access! login to continue!",
       });
     } else {
-      const payload = jwt.verify(authToken, process.env.SECRET_KEY);
+      const payload = jwt.verify(token, process.env.SECRET_KEY);
       req.userId = payload.userId;
       req.name = payload.name;
     }
