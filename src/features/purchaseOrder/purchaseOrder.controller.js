@@ -154,7 +154,10 @@ class PurchaseOrderController {
       }
 
       //Average Acknowledge time calculation
-      if (!prevPo.acknowledgmentDate && po.acknowledgmentDate) {
+      if (
+        (!prevPo.acknowledgmentDate && po.acknowledgmentDate) ||
+        data.acknowledgmentDate
+      ) {
         const vendorId = new mongoose.Types.ObjectId(prevPo.vendor);
         const averageResponseTime = await PurchaseOrder.aggregate([
           {

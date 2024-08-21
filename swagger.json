@@ -237,7 +237,7 @@
       "get": {
         "tags": ["Vendors"],
         "summary": "Get Vendor performance by id",
-        "description":"This api will create the vender performance and fetch it",
+        "description": "This api will create the vender performanc record and fetch it",
         "security": [{ "JWT": {} }],
         "parameters": [
           {
@@ -339,6 +339,7 @@
       "put": {
         "tags": ["Purchase Orders"],
         "summary": "Update Purchase order",
+        "description": "Update purchase order by providing status or qualityRating or issueDate or acknowledgement Date.",
         "security": [{ "JWT": {} }],
         "parameters": [
           {
