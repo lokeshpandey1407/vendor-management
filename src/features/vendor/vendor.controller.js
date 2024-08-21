@@ -1,9 +1,12 @@
 const errorHandler = require("../../middleware/error.middleware");
+const HistoricalPerformanceRepository = require("../historicalPerformance/historicalPerformance.repository");
 const VendorRepository = require("./vendor.repository");
 
 class VendorController {
   constructor() {
     this.vendorRepository = new VendorRepository();
+    this.historicalPerformanceRepository =
+      new HistoricalPerformanceRepository();
   }
 
   async createVendor(req, res, next) {
@@ -112,6 +115,43 @@ class VendorController {
       return res
         .status(200)
         .send({ success: true, message: "Vendor deleted successfully" });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getVenderPerformance(req, res, next) {
+    try {
+      const vendorId = req.params.vendorId;
+      const vendor = await this.vendorRepository.getVendorData(vendorId);
+      if (!vendor) {
+        return res.status(404).send({
+          success: false,
+          message: "Invalid vendorId. Please check the id and try again",
+        });
+      }
+      const performanceObj = {
+        vendor: vendorId,
+        date: new Date(),
+        onTimeDeliveryRate: vendor.onTimeDeliveryRate || null,
+        qualityRatingAvg: vendor.qualityRatingAvg || null,
+        averageResponseTime: vendor.averageResponseTime || null,
+        fulfillmentRate: vendor.fulfillmentRate || null,
+      };
+      const vendorPerformance = await this.historicalPerformanceRepository.create(
+        performanceObj
+      );
+      if (!vendorPerformance) {
+        return res.status(400).send({
+          success: false,
+          message: "Some error occured. Please try again",
+        });
+      }
+      return res.status(200).send({
+        success: true,
+        data: vendorPerformance,
+        message: "Vendor performance fetched successfully",
+      });
     } catch (error) {
       next(error);
     }

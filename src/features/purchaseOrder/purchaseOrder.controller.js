@@ -109,7 +109,7 @@ class PurchaseOrderController {
         });
       }
 
-      //On time dilevery rate calculation
+      //On time dilevery rate and fulfillment rate calculation
       if (prevPo.status !== "completed" && po.status === "completed") {
         const vendorId = prevPo.vendor;
         const currentDate = new Date();
@@ -118,13 +118,19 @@ class PurchaseOrderController {
           status: "completed",
           deliveryDate: { $gte: currentDate },
         });
+        const completedOrders = await PurchaseOrder.countDocuments({
+          vendor: vendorId,
+          status: "completed",
+        });
         const totalPoForCurrentVendor = (
           await this.purchaseOrderRepository.getPurchaseOrders(vendorId)
         ).length;
         const onTimeDeliveryRate =
           completedOrderOnTime / totalPoForCurrentVendor;
+        const fulfilledDeliveryRate = completedOrders / totalPoForCurrentVendor;
         const vendor = await this.vendorRepository.getVendorData(vendorId);
         vendor.onTimeDeliveryRate = onTimeDeliveryRate;
+        vendor.fulfillmentRate = fulfilledDeliveryRate;
         await vendor.save();
       }
 
@@ -147,7 +153,43 @@ class PurchaseOrderController {
         await vendor.save();
       }
 
-      
+      //Average Acknowledge time calculation
+      if (!prevPo.acknowledgmentDate && po.acknowledgmentDate) {
+        const vendorId = new mongoose.Types.ObjectId(prevPo.vendor);
+        const averageResponseTime = await PurchaseOrder.aggregate([
+          {
+            $match: {
+              vendor: vendorId,
+            },
+          },
+          {
+            $addFields: {
+              timeDifference: {
+                $subtract: ["$acknowledgmentDate", "$issueDate"],
+              },
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              averageTimeDifference: { $avg: "$timeDifference" },
+            },
+          },
+          {
+            $project: {
+              _id: 0,
+              averageResponseTimeDays: {
+                $divide: ["$averageTimeDifference", 1000 * 60 * 60 * 24],
+              },
+            },
+          },
+        ]);
+
+        const vendor = await this.vendorRepository.getVendorData(prevPo.vendor);
+        vendor.averageResponseTime =
+          averageResponseTime[0]?.averageResponseTimeDays || 0;
+        await vendor.save();
+      }
 
       return res.status(200).send({
         success: true,

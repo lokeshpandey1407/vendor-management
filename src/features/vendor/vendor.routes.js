@@ -24,4 +24,8 @@ vendorRoutes.put("/vendors/:vendorId", (req, res, next) => {
   vendorController.updateVendor(req, res, next);
 });
 
+vendorRoutes.get("/vendors/performance/:vendorId",(req,res,next)=>{
+  vendorController.getVenderPerformance(req,res,next);
+})
+
 module.exports = vendorRoutes;

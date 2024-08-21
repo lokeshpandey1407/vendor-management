@@ -233,6 +233,34 @@
       }
     },
 
+    "/vendors/performance/{vendorId}": {
+      "get": {
+        "tags": ["Vendors"],
+        "summary": "Get Vendor performance by id",
+        "description":"This api will create the vender performance and fetch it",
+        "security": [{ "JWT": {} }],
+        "parameters": [
+          {
+            "name": "vendorId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vendor performance fetched successfully"
+          },
+          "400": {
+            "description": "Error while fetching Vendor performance. Please try again"
+          },
+          "404": {
+            "description": "Vendor not found"
+          }
+        }
+      }
+    },
+
     "/purchase-orders": {
       "post": {
         "tags": ["Purchase Orders"],
