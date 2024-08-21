@@ -41,7 +41,7 @@ This API uses Swagger to provide interactive documentation and testing capabilit
 ## Accessing Swagger
 
 To access Swagger, navigate to the following URL in your web browser:
-`http://localhost:3001/api-docs`
+`http://localhost:3001/api-doc`
 
 ## Using Swagger
 
