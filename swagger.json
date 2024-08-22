@@ -17,7 +17,7 @@
       "post": {
         "tags": ["Authentication"],
         "summary": "Signin for admin",
-        "description": "Sign in and Get api token ",
+        "description": "Sign in with registered Email to get the token for authentication.",
         "requestBody": {
           "content": {
             "application/json": {
@@ -46,7 +46,7 @@
       "post": {
         "tags": ["Authentication"],
         "summary": "Signup for admin",
-        "description": "Sign up to create an Admin ",
+        "description": "Sign up to create admin account for sign in process and getting auth token",
         "requestBody": {
           "content": {
             "application/json": {
@@ -69,21 +69,6 @@
             "description": "Error while creating Account. Please try again"
           }
         }
-      },
-      "/api/products": {
-        "get": {
-          "tags": ["Product"],
-          "summary": "Get all products",
-          "security": [{ "JWT": {} }],
-          "responses": {
-            "200": {
-              "description": "Ok"
-            },
-            "401": {
-              "description": "Unauthorized access"
-            }
-          }
-        }
       }
     },
 
@@ -91,6 +76,7 @@
       "post": {
         "tags": ["Vendors"],
         "summary": "Create Vendor",
+        "description": "This will create a vendor",
         "security": [{ "JWT": {} }],
         "requestBody": {
           "content": {
@@ -125,6 +111,7 @@
       "get": {
         "tags": ["Vendors"],
         "summary": "Get all Vendors",
+        "description": "This will get all the vendors",
         "security": [{ "JWT": {} }],
         "responses": {
           "200": {
@@ -144,6 +131,7 @@
       "get": {
         "tags": ["Vendors"],
         "summary": "Get Vendor by id",
+        "description": "This will get the vendor with given vendorId",
         "security": [{ "JWT": {} }],
         "parameters": [
           {
@@ -168,6 +156,7 @@
       "put": {
         "tags": ["Vendors"],
         "summary": "Update Vendor",
+        "description": "This will update the vendor",
         "security": [{ "JWT": {} }],
         "parameters": [
           {
@@ -210,6 +199,7 @@
       "delete": {
         "tags": ["Vendors"],
         "summary": "Delete Vendor by id",
+        "description": "This will delete the vendor.",
         "security": [{ "JWT": {} }],
         "parameters": [
           {
@@ -265,6 +255,7 @@
       "post": {
         "tags": ["Purchase Orders"],
         "summary": "Create Purchase Order",
+        "description": "This api will create the purchase order.",
         "security": [{ "JWT": {} }],
         "requestBody": {
           "content": {
@@ -299,7 +290,19 @@
       "get": {
         "tags": ["Purchase Orders"],
         "summary": "Get all Purchase orders",
+        "description": "This api will get all the purchase orders or if you provide the filter with vendor id then it will get all the purchase orders of the particulas vendor id.",
         "security": [{ "JWT": {} }],
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Filter by Vendor ID (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Purchase Orders fetched successfully"
@@ -315,6 +318,7 @@
       "get": {
         "tags": ["Purchase Orders"],
         "summary": "Get Purchase order by id",
+        "description": "This api will get the purchase order by Id.",
         "security": [{ "JWT": {} }],
         "parameters": [
           {
@@ -381,6 +385,7 @@
       "delete": {
         "tags": ["Purchase Orders"],
         "summary": "Delete Purchase order by id",
+        "description": "This will delete the purchase order.",
         "security": [{ "JWT": {} }],
         "parameters": [
           {
