@@ -290,7 +290,7 @@
       "get": {
         "tags": ["Purchase Orders"],
         "summary": "Get all Purchase orders",
-        "description": "This api will get all the purchase orders or if you provide the filter with vendor id then it will get all the purchase orders of the particulas vendor id.",
+        "description": "This api will get all the purchase orders or if you provide the filter with vendor id then it will get all the purchase orders of the particular vendor id.",
         "security": [{ "JWT": {} }],
         "parameters": [
           {
