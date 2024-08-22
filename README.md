@@ -42,6 +42,8 @@ This API uses Swagger to provide interactive documentation and testing capabilit
 
 To access Swagger, navigate to the following URL in your web browser:
 `http://localhost:3001/api-doc`
+or use the hosted link -
+`https://vendor-management-3v9i.onrender.com/api-doc`
 
 ## Using Swagger
 
